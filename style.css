@@ -1,0 +1,14 @@
+body
+{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    background-color: lightblue;
+}
+
+table, th, td
+{
+    border: 2px solid rgb(106, 198, 255);
+    border-collapse: collapse;
+    padding: 5px;
+    margin-top: 10px;
+}
