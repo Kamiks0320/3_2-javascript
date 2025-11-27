@@ -1,6 +1,6 @@
 document.getElementById("searchButton").addEventListener("click", function()
 {
-    fetch("http://localhost:3000/stations")
+    fetch("http://localhost:3000/data")
         .then(response =>
         {
             if(!response.ok) throw new Error("Błąd:" + response.status);
@@ -19,10 +19,10 @@ document.getElementById("searchButton").addEventListener("click", function()
 
                 tr.innerHTML =
                 `
-                    <td>${station.id}</td>
-                    <td>${station.name}</td>
-                    <td>${station.latitude}</td>
-                    <td>${station.longitude}</td>
+                    <td>${station.date}</td>
+                    <td>${station.datatype}</td>
+                    <td>${station.station}</td>
+                    <td>${station.attributes}</td>
                 `;
                 tablebody.appendChild(tr);
             }
