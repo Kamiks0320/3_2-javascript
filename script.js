@@ -1,6 +1,20 @@
+const zipInput = document.getElementById("capitalInput");
+const startInput = document.getElementById("startDateInput");
+const endInput = document.getElementById("endDateInput");
+
 document.getElementById("searchButton").addEventListener("click", function()
 {
-    fetch("http://localhost:3000/data")
+    const zip = zipInput.value.trim();
+    const startDate = startInput.value;
+    const endDate = endInput.value;
+
+    if(!zip || !startDate || !endDate)
+    {
+        alert("Wszystkie dane musza być podane.")
+        return;
+    }
+
+    fetch(`http://localhost:3000/data?datasetid=GHCND&locationid=ZIP:${zip}&startdate=${startDate}&enddate=${endDate}`)
         .then(response =>
         {
             if(!response.ok) throw new Error("Błąd:" + response.status);
@@ -8,23 +22,26 @@ document.getElementById("searchButton").addEventListener("click", function()
         })
         .then(data =>
         {
-            const stations = data.results[5];
-            console.log(stations);
+            if(data.results === 0 || !data.results)
+            {
+                alert("Brak wyników dla podanych filtrów.");
+                return;
+            }
 
-            const tablebody = document.getElementById("rows");
+            console.log(data.results);
 
-            data.results.forEach(station =>
+            data.results.forEach(thing =>
             {
                 const tr = document.createElement("tr");
 
                 tr.innerHTML =
                 `
-                    <td>${station.date}</td>
-                    <td>${station.datatype}</td>
-                    <td>${station.station}</td>
-                    <td>${station.attributes}</td>
+                    <td>${thing.date}</td>
+                    <td>${thing.datatype}</td>
+                    <td>${thing.station}</td>
+                    <td>${thing.value}</td>
                 `;
-                tablebody.appendChild(tr);
+                document.getElementById("rows").appendChild(tr);
             }
             )
         })
